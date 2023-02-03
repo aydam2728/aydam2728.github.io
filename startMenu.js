@@ -5,7 +5,7 @@ class startMenu extends Phaser.Scene {
   
     preload() {
       // Preload the background image
-      this.load.image('forest', 'assets/forest.gif');
+        this.load.image('forest', 'assets/forest.gif');
     }
   
     create() {
@@ -29,7 +29,7 @@ class startMenu extends Phaser.Scene {
   
       // Start the game when the button is clicked
       startButton.on('pointerdown', function () {
-        this.scene.start('startMenu');
+        this.scene.start('Game');
       }, this);
     }
   }
