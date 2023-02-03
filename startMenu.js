@@ -1,4 +1,4 @@
-class StartMenu extends Phaser.Scene {
+class startMenu extends Phaser.Scene {
     constructor() {
       super('startMenu');
     }
@@ -29,7 +29,7 @@ class StartMenu extends Phaser.Scene {
   
       // Start the game when the button is clicked
       startButton.on('pointerdown', function () {
-        this.scene.start('Game');
+        this.scene.start('startMenu');
       }, this);
     }
   }
