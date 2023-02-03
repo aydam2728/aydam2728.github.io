@@ -17,5 +17,4 @@ class Game extends Phaser.Scene{
             ease: 'Linear'
         });
     }
-
 }
