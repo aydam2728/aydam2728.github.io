@@ -1,6 +1,6 @@
 var config={
     width : 800,
-    heigth : 600,
+    height : 600,
     backgroundColor : "black",
     scene : [startMenu,Game,endMenu]
 }
