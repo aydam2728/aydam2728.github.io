@@ -21,8 +21,8 @@ class startMenu extends Phaser.Scene {
       title.setOrigin(0.5, 0.5);
   
       // Add a start button
-      var startButton = this.add.text(400, 500, 'Press Enter', {
-        fontSize: '24px',
+      var startButton = this.add.text(400, 550, 'Start Game', {
+        fontSize: '48px',
         fill: '#fff'
       });
       startButton.setOrigin(0.5, 0.5);
@@ -32,6 +32,18 @@ class startMenu extends Phaser.Scene {
       startButton.on('pointerdown', function () {
         this.scene.start('Game');
       }, this);
+
+      // Make the button flicker
+    this.tweens.add({
+        targets: startButton,
+        alpha: 0.5,
+        duration: 500,
+        ease: 'Linear',
+        yoyo: true,
+        repeat: -1
+      });
+
+
     }
   }
   
