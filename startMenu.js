@@ -10,7 +10,7 @@ class startMenu extends Phaser.Scene {
   
     create() {
       // Set the background image
-      this.add.image(400, 300, 'forest');
+      this.add.image(window.innerHeight, window.innerWidth, 'forest');
   
       // Add a title text
       var title = this.add.text(400, 100, 'DodgeRoot', {
