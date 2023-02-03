@@ -18,4 +18,4 @@ class Game extends Phaser.Scene{
         });
     }
 
-}
+}x²
