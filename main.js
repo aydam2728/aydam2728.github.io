@@ -1,7 +1,7 @@
 var config={
     width : 800,
     heigth : 600,
-    backgroundColor : black,
+    backgroundColor : "black",
     scene : [startMenu,Game,endMenu]
 }
 window.onload = function (){
