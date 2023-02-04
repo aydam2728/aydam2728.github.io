@@ -6,6 +6,7 @@ class Game extends Phaser.Scene{
     preload(){
         this.load.image('bugs', 'assets/bugs.jpg');
         this.score=0;
+
     }
     create(){
         // Add a score text
