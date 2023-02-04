@@ -11,7 +11,23 @@ class startMenu extends Phaser.Scene {
     }
 
     create() {
-
+        WebFont.load({
+            google: {
+                families: ['Press Start 2P']
+            },
+            active: function () {
+                // Use the font to create a text object
+                // Add a title text
+                const screenCenterX_title = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+                const screenCenterY_title = this.cameras.main.worldView.y + this.cameras.main.height / 2 - 300;
+                var title = this.add.text(screenCenterX_title, screenCenterY_title, 'Dodge Root', {
+                    fontFamily: '"Press Start 2P"',
+                    fontSize: '10em',
+                    fill: '#fff'
+                });
+                title.setOrigin(0.5, 0.5);
+            }.bind(this)
+        });
 
         // Set the background image
         this.anims.create({
@@ -29,17 +45,6 @@ class startMenu extends Phaser.Scene {
 
             
          },this);
-
-        // Add a title text
-        const screenCenterX_title = this.cameras.main.worldView.x + this.cameras.main.width / 2;
-        const screenCenterY_title = this.cameras.main.worldView.y + this.cameras.main.height / 2 - 300;
-        var title = this.add.text(screenCenterX_title, screenCenterY_title, 'Dodge Root', {
-            fontFamily: 'ArcadeClassic',
-            fontSize: '15em',
-            fill: '#fff'
-
-        });
-        title.setOrigin(0.5, 0.5);
         
         // Add a start button
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
