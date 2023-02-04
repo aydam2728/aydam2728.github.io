@@ -5,6 +5,8 @@ class Game extends Phaser.Scene {
 
     preload() {
         this.load.image('bugs', 'assets/bugs.jpg');
+        this.load.image('bugs_1', 'assets/bugs_1.png');
+        this.load.image('bugs_2', 'assets/bugs_2.png');
         this.load.image('test', 'assets/racine.png');
         this.score=0;
         this.targetPoint = {x:0,y:0};
@@ -14,10 +16,12 @@ class Game extends Phaser.Scene {
         this.rightKey;
         this.list = [];
         this.test;
+        this.timeCheck=this.time.now;
+        //this.triggerTimer = Phaser.Time.TimerEvent;
     }
 
     create(){
-         this.test = this.add.image(1000, window.innerHeight,"test");
+         this.test = this.add.image(window.innerWidth/2, window.innerHeight,"test");
          this.test.setScale(0.5,0.5);
          this.test.setOrigin(0.5, 1);
 
@@ -60,16 +64,7 @@ class Game extends Phaser.Scene {
 
             // Update the timer text
             timer.setText(minutes + ':' + (seconds < 10 ? '0' : '') + seconds + '.' + (milliseconds / 100).toFixed(0));
-
         }, 100);
-
-
-
-        /* Spawn tout plein de bugs
-        for (var i=0;i<10;i++){
-            spawnBugs(this);
-
-        }*/
 
 
         //backspace key implementation
@@ -97,9 +92,18 @@ class Game extends Phaser.Scene {
         this.downKey = this.input.keyboard.addKey("DOWN");
         this.leftKey = this.input.keyboard.addKey("LEFT");
         this.rightKey = this.input.keyboard.addKey("RIGHT");
-        //this.physics.add.overlap(this.graphics, spawnBugs(this), this.collisionHandler, null, this);
+
+
+
+    //this.physics.add.overlap(this.graphics, spawnBugs(this), this.collisionHandler, null, this);
     }
+
     update(){
+        if (this.time.now - this.timeCheck > 1000){
+            this.timeCheck=this.time.now;
+            console.log(this.time.now);
+        }
+
         if (this.upKey.isDown && this.targetPoint.y>=(window.innerHeight)/2)
         {
             this.targetPoint.y-=10;
@@ -160,9 +164,8 @@ function spawnBugs(Game){
         y1 = Math.random() * 2 * (window.innerHeight / 3);
 
     }
-    console.log();
-    var img = Game.add.image(x1, y1, "bugs");
-    img.setScale(0.05, 0.05);
+    var img = Game.add.image(x1, y1, "bugs_"+(Math.round(Math.random())+1));
+    img.setScale(0.2,0.2);
     Game.tweens.add({
         targets: img,
         x: x2,
