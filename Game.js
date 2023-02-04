@@ -9,6 +9,7 @@ class Game extends Phaser.Scene {
         this.load.image('bugs_2', 'assets/bugs_2.png');
         this.load.image('test', 'assets/racine.png');
         this.load.image('heart', 'assets/8bitheart.png');
+        this.load.image('daisy', 'assets/daisy.png');
         this.score=0;
         this.targetPoint = {x:0,y:0};
         this.upKey;
@@ -24,6 +25,9 @@ class Game extends Phaser.Scene {
     create(){
         //  Health ATH
         this.data.set('lives', 3);
+        this.daisy=this.add.image(500,500,"daisy");
+        this.daisy.setScale(0.1,0.1);
+        this.daisy.depth=50;
         this.heart = this.add.image(110, 165,"heart");
         this.heart.setOrigin(0.5,1)
         this.heart.setScale(0.04,0.04);
@@ -108,7 +112,6 @@ class Game extends Phaser.Scene {
         this.rightKey = this.input.keyboard.addKey("RIGHT");
 
 
-
     //this.physics.add.overlap(this.graphics, spawnBugs(this), this.collisionHandler, null, this);
     }
 
@@ -133,16 +136,22 @@ class Game extends Phaser.Scene {
         }
         else if (this.rightKey.isDown && this.test.angle<=60)
         {
-                this.test.angle+=2;
+            this.test.angle+=2;
         }
         this.targetPoint=this.test.getTopCenter() ;
-
+        console.log(this.test.getCenter());
+        this.daisy.setPosition(this.test.getCenter().x,this.test.getCenter().y);
         if(this.list.length >0){
                 // Check for overlap between the line and the bug bounding box
             for (var i=0;i<this.list.length;i++) {
                 if (Phaser.Geom.Intersects.RectangleToRectangle(this.test.getBounds(), this.list[i].getBounds())) {
+                    if (Phaser.Geom.Intersects.RectangleToRectangle(this.daisy.getBounds(), this.list[i].getBounds())){
+                        console.log("daisy");
+                        this.list[i].destroy();
+                    }
+                    //this.scene.stop('Game');
                     // Perform the desired action, e.g. score update or bug destruction
-                    this.list[i].destroy();
+
                     //this.scene.start('endMenu');
                 }
             }
@@ -160,6 +169,7 @@ function moveLine(Game) {
     Game.graphics.lineTo(window.innerWidth / 2, Game.top);
     Game.graphics.stroke();
 }
+
 function spawnBugs(Game){
     var x1 =0;
     var y1=0;
