@@ -12,6 +12,8 @@ class endMenu extends Phaser.Scene {
     }
 
     create() {
+            const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+            const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
             var chars = [
                 ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
@@ -21,7 +23,7 @@ class endMenu extends Phaser.Scene {
             var cursor = { x: 0, y: 0 };
             var name = '';
 
-            var input = this.add.bitmapText(130, 50, 'arcade', 'ABCDEFGHIJ\n\nKLMNOPQRST\n\nUVWXYZ.-').setLetterSpacing(20);
+            var input = this.add.bitmapText(screenCenterX - 200, screenCenterY-300, 'arcade', 'ABCDEFGHIJ\n\nKLMNOPQRST\n\nUVWXYZ.-').setLetterSpacing(20);
 
             input.setInteractive();
 
@@ -30,15 +32,16 @@ class endMenu extends Phaser.Scene {
 
             var block = this.add.image(input.x - 10, input.y - 2, 'block').setOrigin(0);
 
-            var legend = this.add.bitmapText(80, 260, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
+            var legend = this.add.bitmapText(screenCenterX - 240, screenCenterY - 90, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
 
-            this.add.bitmapText(80, 310, 'arcade', '1ST   50000    ').setTint(0xff0000);
-            this.add.bitmapText(80, 360, 'arcade', '2ND   40000    ICE').setTint(0xff8200);
-            this.add.bitmapText(80, 410, 'arcade', '3RD   30000    GOS').setTint(0xffff00);
-            this.add.bitmapText(80, 460, 'arcade', '4TH   20000    HRE').setTint(0x00ff00);
-            this.add.bitmapText(80, 510, 'arcade', '5TH   10000    ETE').setTint(0x00bfff);
+            this.add.bitmapText(screenCenterX- 350, screenCenterY - 500, 'arcade', 'GAME OVER !', 80).setTint(0x00ff00);
+            this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', '1ST   50000    ').setTint(0xff0000);
+            this.add.bitmapText(screenCenterX - 240, screenCenterY + 10, 'arcade', '2ND   40000    ICE').setTint(0xff8200);
+            this.add.bitmapText(screenCenterX - 240, screenCenterY + 60, 'arcade', '3RD   30000    GOS').setTint(0xffff00);
+            this.add.bitmapText(screenCenterX - 240, screenCenterY + 110, 'arcade', '4TH   20000    HRE').setTint(0x00ff00);
+            this.add.bitmapText(screenCenterX - 240, screenCenterY + 160, 'arcade', '5TH   10000    ETE').setTint(0x00bfff);
 
-            var playerText = this.add.bitmapText(560, 310, 'arcade', name).setTint(0xff0000);
+            var playerText = this.add.bitmapText(screenCenterX + 240, screenCenterY - 40, 'arcade', name).setTint(0xff0000);
 
             this.input.keyboard.on('keyup', function (event) {
 
