@@ -5,18 +5,23 @@ class Game extends Phaser.Scene {
 
     preload() {
         this.load.image('bugs', 'assets/bugs.jpg');
-        this.score = 0;
-        this.top = 2 * (window.innerHeight / 3);
+        this.load.image('test', 'assets/racine.png');
+        this.score=0;
+        this.targetPoint = {x:0,y:0};
         this.upKey;
         this.downKey;
         this.leftKey;
         this.rightKey;
-        this.linepos = window.innerWidth / 2
-
+        this.list = [];
+        this.test;
     }
 
-    create() {
+    create(){
+         this.test = this.add.image(1000, window.innerHeight,"test");
+         this.test.setScale(0.5,0.5);
+         this.test.setOrigin(0.5, 1);
 
+        this.targetPoint.y=this.test.getTopCenter().y ;
         // Add a score text
         var timer = this.add.text(
             (this.game.config.width / 2) +100,
@@ -62,30 +67,7 @@ class Game extends Phaser.Scene {
 
         /* Spawn tout plein de bugs
         for (var i=0;i<10;i++){
-            var x1 =0;
-            var y1=0;
-            var x2=window.innerWidth/2;
-            var y2=500;
-
-            var fromTop = Math.round(Math.random()) //1 = True ; 0 = False
-            if (fromTop == 1){
-                x1 = Math.random() * (window.innerWidth);
-            }else if(Math.round(Math.random()) == 1 ){ //par la droite
-                x1 = window.innerWidth;
-                y1 = Math.random() * 2* (window.innerHeight/3);
-            }else{
-                y1 = Math.random() * 2* (window.innerHeight/3);
-            }
-            var img = this.add.image(x1,y1,"bugs");
-            img.setScale(0.05, 0.05);
-            this.tweens.add({
-                targets: img,
-                x: x2,
-                y: y2,
-                duration: 8000,
-                ease: 'Linear'
-            });
-
+            spawnBugs(this);
 
         }*/
 
@@ -96,7 +78,7 @@ class Game extends Phaser.Scene {
 
         }, this);
 
-        this.input.keyboard.on('keydown-' + 'LEFT', function (event) {
+        this.input.keyboard.on('keydown-' + 'A', function (event) {
             spawnBugs(this);
         }, this);
 
@@ -115,27 +97,38 @@ class Game extends Phaser.Scene {
         this.downKey = this.input.keyboard.addKey("DOWN");
         this.leftKey = this.input.keyboard.addKey("LEFT");
         this.rightKey = this.input.keyboard.addKey("RIGHT");
+        //this.physics.add.overlap(this.graphics, spawnBugs(this), this.collisionHandler, null, this);
     }
-    update() {
-        if (this.upKey.isDown && this.top >= (window.innerHeight) / 2) {
-            this.top = this.top - 10;
-            moveLine(this);
+    update(){
+        if (this.upKey.isDown && this.targetPoint.y>=(window.innerHeight)/2)
+        {
+            this.targetPoint.y-=10;
         }
-        else if (this.downKey.isDown && this.top <= window.innerHeight) {
-            this.top = this.top + 10;
-            moveLine(this);
-        }
-
-        if (this.leftKey.isDown) {
-
-        }
-        else if (this.rightKey.isDown) {
-            this.linepos = this.linepos + 10;
-            this.top = this.top + 1;
-            rotateLine(this, this.linepos)
+        else if (this.downKey.isDown && this.targetPoint.y<=window.innerHeight)
+        {
+            this.targetPoint.y+=10;
         }
 
+        if (this.leftKey.isDown)
+        {
+            this.test.angle-=2;
+        }
+        else if (this.rightKey.isDown)
+        {
+                this.test.angle+=2;
+        }
+        this.targetPoint=this.test.getTopCenter() ;
 
+        if(this.list.length >0){
+                // Check for overlap between the line and the bug bounding box
+            for (var i=0;i<this.list.length;i++) {
+                if (Phaser.Geom.Intersects.RectangleToRectangle(this.test.getBounds(), this.list[i].getBounds())) {
+                    // Perform the desired action, e.g. score update or bug destruction
+                    this.list[i].destroy();
+                    //this.scene.start('endMenu');
+                }
+            }
+        }
 
 
     }
@@ -149,12 +142,11 @@ function moveLine(Game) {
     Game.graphics.lineTo(window.innerWidth / 2, Game.top);
     Game.graphics.stroke();
 }
-
-function spawnBugs(Game) {
-    var x1 = 0;
-    var y1 = 0;
-    var x2 = window.innerWidth / 2;
-    var y2 = Game.top;
+function spawnBugs(Game){
+    var x1 =0;
+    var y1=0;
+    var x2=Game.targetPoint.x
+    var y2=Game.targetPoint.y;
     var fromTop = Math.round(Math.random()) //1 = True ; 0 = False
     if (fromTop == 1) {
         x1 = Math.random() * (window.innerWidth);
@@ -178,6 +170,7 @@ function spawnBugs(Game) {
         duration: 5000,
         ease: 'Linear'
     });
-
-
+    Game.list.push(img);
 }
+
+
