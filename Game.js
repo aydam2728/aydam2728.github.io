@@ -6,6 +6,7 @@ class Game extends Phaser.Scene {
     preload() {
         this.load.image('bugs', 'assets/bugs.jpg');
         this.load.image('test', 'assets/racine.png');
+        this.load.image('heart', 'assets/8bitheart.png');
         this.score=0;
         this.targetPoint = {x:0,y:0};
         this.upKey;
@@ -17,7 +18,20 @@ class Game extends Phaser.Scene {
     }
 
     create(){
-         this.test = this.add.image(1000, window.innerHeight,"test");
+        //  Health ATH
+        this.data.set('lives', 3);
+        this.heart = this.add.image(110, 165,"heart");
+        this.heart.setOrigin(0.5,1)
+        this.heart.setScale(0.04,0.04);
+
+        var text = this.add.text(200, 100, '', { font: '40px Courier', fill: '#00ff00' });
+
+        text.setText([
+            "X " +this.data.get('lives'),
+        ]);
+
+        // creating our root
+         this.test = this.add.image(window.innerWidth / 2, window.innerHeight,"test");
          this.test.setScale(0.5,0.5);
          this.test.setOrigin(0.5, 1);
 
