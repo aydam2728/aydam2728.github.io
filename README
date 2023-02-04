@@ -5,7 +5,7 @@ TODO :
 
 Sound ?
 
-// chatgpt spiring
+// chatgpt spring
 
 var mainScene = new Phaser.Scene({
     preload: function () {

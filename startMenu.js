@@ -33,7 +33,7 @@ class startMenu extends Phaser.Scene {
         this.anims.create({
             key: 'forest_anim',
             frames: this.anims.generateFrameNumbers('forest', { start: 0, end: 46 - 1 }),
-            frameRate: 23,
+            frameRate: 21,
             repeat: -1
         });
 
