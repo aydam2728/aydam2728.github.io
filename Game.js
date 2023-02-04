@@ -52,7 +52,7 @@ class Game extends Phaser.Scene {
 
         }, this);
 
-        //dev game over switch key implementation
+        //dev game over switch key implementation test
         var inputString = '';
 
         this.input.keyboard.on('keydown', function (event) {
