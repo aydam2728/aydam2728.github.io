@@ -139,3 +139,22 @@ class endMenu extends Phaser.Scene {
             }, this);
         }
     }
+
+    function loadScores(){
+    /*
+        var fs = require("fs");
+        fs.readFile("./mytext.txt", function(text){
+
+            var textByLine = text.split("\n")
+        });
+        var txtFile = "scores.txt";
+        var file = new File(txtFile,"write");
+        var str = JSON.stringify({ 'x': 5, 'y': 6 });
+
+        log("opening file...");
+        file.open();
+        log("writing file..");
+        file.writeline(str);
+        file.close();*/
+        //console.log(JSON.stringify({ x: 5, y: 6 });
+    }
