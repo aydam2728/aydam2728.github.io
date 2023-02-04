@@ -69,7 +69,10 @@ class Game extends Phaser.Scene{
         this.input.keyboard.on('keydown-' + 'BACKSPACE', function (event) {
             this.scene.start('startMenu');
 
+        },this);
 
+        this.input.keyboard.on('keydown-' + 'LEFT', function (event) {
+            spawnBugs(this);
         },this);
 
         //dev game over switch key implementation test
