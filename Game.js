@@ -127,11 +127,11 @@ class Game extends Phaser.Scene {
             this.targetPoint.y+=10;
         }
 
-        if (this.leftKey.isDown)
+        if (this.leftKey.isDown && this.test.angle>=-60)
         {
             this.test.angle-=2;
         }
-        else if (this.rightKey.isDown)
+        else if (this.rightKey.isDown && this.test.angle<=60)
         {
                 this.test.angle+=2;
         }
