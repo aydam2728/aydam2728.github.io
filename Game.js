@@ -35,6 +35,12 @@ class Game extends Phaser.Scene{
 
                 }
             });
+             //backspace key implementation
+        this.input.keyboard.on('keydown-' + 'BACKSPACE', function (event) {
+            this.scene.start('startMenu');
+
+            
+         },this);
         }
     }
 }

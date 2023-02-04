@@ -7,6 +7,7 @@ class startMenu extends Phaser.Scene {
         // Preload the background image
         this.load.spritesheet('forest', 'assets/forest_spritesheet.png', { frameWidth: 400, frameHeight: 300 });
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+
     }
 
     create() {
@@ -16,13 +17,18 @@ class startMenu extends Phaser.Scene {
         this.anims.create({
             key: 'forest_anim',
             frames: this.anims.generateFrameNumbers('forest', { start: 0, end: 46 - 1 }),
-            frameRate: 20,
+            frameRate: 18,
             repeat: -1
         });
 
         this.add.sprite(0, 0, 'forest').setOrigin(0, 0).setDisplaySize(config.width, config.height).play('forest_anim');
 
+        //enter key implementation
+        this.input.keyboard.on('keydown-' + 'ENTER', function (event) {
+            this.scene.start('Game');
 
+            
+         },this);
 
         // Add a title text
         const screenCenterX_title = this.cameras.main.worldView.x + this.cameras.main.width / 2;
@@ -34,12 +40,6 @@ class startMenu extends Phaser.Scene {
 
         });
         title.setOrigin(0.5, 0.5);
-
-        // enter keyboard implementation
-        this.input.keyboard.on('keydown_ENTER', function (event) {
-            console.log("toto")
-            this.scene.start('Game');
-        });
         
         // Add a start button
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
@@ -68,7 +68,6 @@ class startMenu extends Phaser.Scene {
         });
 
         
-
-
     }
+    
 }
