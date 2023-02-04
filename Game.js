@@ -7,7 +7,9 @@ class Game extends Phaser.Scene {
         this.load.image('bugs', 'assets/bugs.jpg');
         this.load.image('bugs_1', 'assets/bugs_1.png');
         this.load.image('bugs_2', 'assets/bugs_2.png');
-        this.load.image('test', 'assets/racine.png');
+        this.load.image('taille1', 'assets/racine.png');
+        this.load.image('taille2', 'assets/taille2.png');
+        this.load.image('taille3', 'assets/taille3.png');
         this.load.image('heart', 'assets/8bitheart.png');
         this.load.image('daisy', 'assets/daisy.png');
         this.score=0;
@@ -19,6 +21,8 @@ class Game extends Phaser.Scene {
         this.list = [];
         this.test;
         this.timeCheck=this.time.now;
+        this.timeCheck2=this.time.now;
+        this.size=1;
         //this.triggerTimer = Phaser.Time.TimerEvent;
     }
 
@@ -32,13 +36,14 @@ class Game extends Phaser.Scene {
         this.heart.setOrigin(0.5,1)
         this.heart.setScale(0.04,0.04);
 
+
         this.hp = this.add.text(200, 100, "X " + this.data.get("lives"), { font: '40px Courier', fill: '#00ff00' });
 
-        
-        
+
+
 
         // creating our root
-         this.test = this.add.image(window.innerWidth / 2, window.innerHeight,"test");
+         this.test = this.add.image(window.innerWidth / 2, window.innerHeight,"taille1");
          this.test.setScale(0.5,0.5);
          this.test.setOrigin(0.5, 1);
 
@@ -118,22 +123,27 @@ class Game extends Phaser.Scene {
         if (this.data.get("lives") == 0){
             this.scene.stop("Game");
             this.scene.start("endMenu");
-
         }
-        
-        
+
+
         if (this.time.now - this.timeCheck > 1000){
             this.timeCheck=this.time.now;
             spawnBugs(this);
         }
 
-        if (this.upKey.isDown && this.targetPoint.y>=(window.innerHeight)/2)
+        if (this.upKey.isDown && this.targetPoint.y>=(window.innerHeight)/2  && this.size<3 && this.size>0 && this.time.now - this.timeCheck2 > 200)
         {
-            this.targetPoint.y-=10;
+            //this.targetPoint.y-=10;
+            this.size++;
+            this.test.setTexture("taille"+this.size);
+            this.timeCheck2=this.time.now;
         }
-        else if (this.downKey.isDown && this.targetPoint.y<=window.innerHeight)
+        else if (this.downKey.isDown && this.targetPoint.y<=window.innerHeight && this.size>1 && this.time.now - this.timeCheck2 > 200)
         {
-            this.targetPoint.y+=10;
+            //this.targetPoint.y+=10;
+            this.size--;
+            this.test.setTexture("taille"+this.size);
+            this.timeCheck2=this.time.now;
         }
 
         if (this.leftKey.isDown && this.test.angle>=-60)
@@ -144,14 +154,15 @@ class Game extends Phaser.Scene {
         {
             this.test.angle+=2;
         }
-        this.targetPoint=this.test.getTopCenter() ;
-        //console.log(this.test.getCenter());
+        this.targetPoint=this.test.getTopCenter();
+        console.log(this.test.getCenter());
         this.daisy.setPosition(this.test.getTopCenter().x,this.test.getTopCenter().y);
+       // this.daisy.setPosition(this.test.x + this.test.width / 2,this.test.y - this.test.height / 2);
+        console.log(this.daisy.y)
         if(this.list.length >0){
                 // Check for overlap between the line and the bug bounding box
-            console.log(this.list.length)
             for (var i=0;i<this.list.length;i++) {
-                if (this.list[i] != undefined ){
+                if (this.list[i] != undefined){
                 if (Phaser.Geom.Intersects.RectangleToRectangle(this.test.getBounds(), this.list[i].getBounds())) {
                     if (Phaser.Geom.Intersects.RectangleToRectangle(this.daisy.getBounds(), this.list[i].getBounds())){
                         console.log("daisy");
@@ -162,15 +173,15 @@ class Game extends Phaser.Scene {
                             "X " +this.data.get('lives'),
                         );
                         break
-                        
-                        
                     }
+                    this.list[i].destroy();
+                    delete this.list[i];
                     //this.scene.stop('Game');
                     // Perform the desired action, e.g. score update or bug destruction
 
                     //this.scene.start('endMenu');
                 }
-            }
+                }
             }
         }
 
