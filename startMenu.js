@@ -33,7 +33,7 @@ class startMenu extends Phaser.Scene {
         this.anims.create({
             key: 'forest_anim',
             frames: this.anims.generateFrameNumbers('forest', { start: 0, end: 46 - 1 }),
-            frameRate: 18,
+            frameRate: 23,
             repeat: -1
         });
 
@@ -59,6 +59,7 @@ class startMenu extends Phaser.Scene {
 
         // Start the game when the button is clicked
         startButton.on('pointerdown', function () {
+            this.scene.stop('startMenu')
             this.scene.start('Game');
         }, this);
 
