@@ -101,7 +101,7 @@ class Game extends Phaser.Scene {
     update(){
         if (this.time.now - this.timeCheck > 1000){
             this.timeCheck=this.time.now;
-            console.log(this.time.now);
+            spawnBugs(this);
         }
 
         if (this.upKey.isDown && this.targetPoint.y>=(window.innerHeight)/2)
