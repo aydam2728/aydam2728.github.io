@@ -1,10 +1,19 @@
 var timerValue=0;
+var minutes = 0;
+var seconds = 0;
+var milliseconds = 0;
+var timer ;
+var interval;
 class Game extends Phaser.Scene {
     constructor() {
         super("Game");
     }
 
     preload() {
+        timerValue=0;
+         minutes = 0;
+         seconds = 0;
+         milliseconds = 0;
         this.load.audio('hit', 'assets/hit.wav');
 
         this.load.image('bugs', 'assets/bugs.jpg');
@@ -64,10 +73,10 @@ class Game extends Phaser.Scene {
          this.hitbox = this.add.rectangle(window.innerWidth / 2, window.innerHeight, (this.test.width*0.5)/3, (this.test.height*0.5)-50, 0x6666ff);
         this.hitbox.setOrigin(0.5,1);
         this.hitbox.alpha = 0;
-
+        this.endTime= this.time.now;
         this.targetPoint=this.test.getTopCenter() ;
         // Add a score text
-        var timer = this.add.text(
+        timer = this.add.text(
             (this.game.config.width / 2) +100,
             100,
             '0:00.00',
@@ -81,36 +90,12 @@ class Game extends Phaser.Scene {
             { fontSize: '45px', fill: '#fff' }
         );
         time.setOrigin(0.5, 0);
-        // Initialize the timer variables
-        var minutes = 0;
-        var seconds = 0;
-        var milliseconds = 0;
-
-        // Start the timer
-        this.interval = setInterval(function () {
-            milliseconds += 100;
-
-            // Increase seconds if milliseconds reach 1000
-            if (milliseconds >= 1000) {
-                milliseconds = 0;
-                seconds++;
-            }
-
-            // Increase minutes if seconds reach 60
-            if (seconds >= 60) {
-                seconds = 0;
-                minutes++;
-            }
-
-            // Update the timer text
-            timer.setText(minutes + ':' + (seconds < 10 ? '0' : '') + seconds + '.' + (milliseconds / 100).toFixed(0));
-            timerValue=timer.text;
-        }, 100);
 
 
         //backspace key implementation
         this.input.keyboard.on('keydown-' + 'BACKSPACE', function (event) {
-            clearInterval(this.interval);
+            clearInterval(interval);
+            interval= null;
             this.scene.stop("Game");
             this.scene.start('startMenu');
 
@@ -120,16 +105,13 @@ class Game extends Phaser.Scene {
             spawnBugs(this);
         }, this);
 
-        this.input.keyboard.on('keydown-' + 'ESC', function (event) {
-            clearInterval(this.interval);
-            this.scene.pause("Game");
-            this.scene.run("pauseMenu");
-        }, this);
         this.input.keyboard.on('keydown-' + 'P', function (event) {
-            clearInterval(this.interval);
+            clearInterval(interval);
+            interval= null;
             this.scene.pause("Game");
             this.scene.run("pauseMenu");
         }, this);
+
 
 
         //dev game over switch key implementation test
@@ -149,10 +131,15 @@ class Game extends Phaser.Scene {
         this.rightKey = this.input.keyboard.addKey("RIGHT");
 
 
+
     //this.physics.add.overlap(this.graphics, spawnBugs(this), this.collisionHandler, null, this);
     }
 
     update(){
+        if(this.time.now -this.endTime >= 100){
+            this.endTime=this.time.now;
+            Timer();
+        }
         if (this.data.get("lives") == 0){
             GameOver(this);
             return "";
@@ -317,8 +304,29 @@ function spawnSplash(game,x,y){
 }
 
 function GameOver(game){
-    clearInterval(game.interval);
+    clearInterval(interval);
     game.scene.stop("Game");
     game.scene.start('endMenu',timerValue);
 }
 
+function Timer(){
+    // Start the timer
+
+        milliseconds += 100;
+
+        // Increase seconds if milliseconds reach 1000
+        if (milliseconds >= 1000) {
+            milliseconds = 0;
+            seconds++;
+        }
+
+        // Increase minutes if seconds reach 60
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+        }
+
+        // Update the timer text
+        timer.setText(minutes + ':' + (seconds < 10 ? '0' : '') + seconds + '.' + (milliseconds / 100).toFixed(0));
+        timerValue=timer.text;
+}

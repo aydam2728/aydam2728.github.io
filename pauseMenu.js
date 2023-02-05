@@ -7,17 +7,10 @@ class pauseMenu extends Phaser.Scene {
     }
 
     create(){
-        this.input.keyboard.on('keydown-' + 'ESC', function (event) {
-            console.log("dsd");
-            this.scene.resume("Game");
-            this.scene.stop("pauseMenu");
-        }, this);
         this.input.keyboard.on('keydown-' + 'P', function (event) {
-            console.log("dsd");
             this.scene.resume("Game");
             this.scene.stop("pauseMenu");
         }, this);
-
 
         this.rect = this.add.rectangle(0,0, window.innerWidth, window.innerHeight, "#ffffff");
         this.rect.setOrigin(0,0);

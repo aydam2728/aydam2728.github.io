@@ -160,7 +160,7 @@ class endMenu extends Phaser.Scene {
         // Restart the game when the button is clicked
         retryButton.on('pointerdown', function () {
             this.scene.stop('endMenu')
-            this.scene.start('Game');
+            this.scene.start('Game',0);
         }, this);
 
         // Make the button flicker
