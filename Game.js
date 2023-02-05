@@ -11,9 +11,13 @@ class Game extends Phaser.Scene {
         this.load.image('taille1', 'assets/racine.png');
         this.load.image('taille2', 'assets/taille2.png');
         this.load.image('taille3', 'assets/taille3.png');
+        this.load.image('taille4', 'assets/taille4.png');
+        this.load.image('taille5', 'assets/taille5.png');
+        this.load.image('taille6', 'assets/taille6.png');
         this.load.image('heart', 'assets/8bitheart.png');
         this.load.image('daisy', 'assets/daisy.png');
-        this.load.image("splash",'assets/splash.png')
+        this.load.image("splash",'assets/splash.png');
+        this.load.image("fond",'assets/fond.png');
         this.score=0;
         this.targetPoint = {x:0,y:0};
         this.upKey;
@@ -39,10 +43,15 @@ class Game extends Phaser.Scene {
         this.heart = this.add.image(110, 165,"heart");
         this.heart.setOrigin(0.5,1)
         this.heart.setScale(0.04,0.04);
+        this.heart.depth=50;
 
-        this.hp = this.add.text(200, 100, "X " + this.data.get("lives"), { font: '40px Courier', fill: '#00ff00' });
-
-
+        this.hp = this.add.text(200, 100, "X " + this.data.get("lives"), { font: '40px Courier', fill: '#ec2f06' });
+        this.hp.depth=50;
+        //fond ecran
+        let background = this.add.sprite(0, 0, 'fond');
+        background.setOrigin(0, 0);
+        background.displayWidth = this.sys.game.config.width;
+        background.displayHeight = this.sys.game.config.height;
 
 
         // creating our root
@@ -149,7 +158,7 @@ class Game extends Phaser.Scene {
             spawnBugs(this);
         }
 
-        if (this.upKey.isDown && this.targetPoint.y>=(window.innerHeight)/2  && this.size<3 && this.size>0 && this.time.now - this.timeCheck2 > 200)
+        if (this.upKey.isDown && this.size<6 && this.size>0 && this.time.now - this.timeCheck2 > 200)
         {
             //this.targetPoint.y-=10;
             this.size++;
@@ -161,7 +170,7 @@ class Game extends Phaser.Scene {
             //console.log(this.test.height*0.5,this.hitbox.size);
             this.timeCheck2=this.time.now;
         }
-        else if (this.downKey.isDown && this.targetPoint.y<=window.innerHeight && this.size>1 && this.time.now - this.timeCheck2 > 200)
+        else if (this.downKey.isDown && this.size>1 && this.time.now - this.timeCheck2 > 200)
         {
             //this.targetPoint.y+=10;
             this.size--;
@@ -276,7 +285,10 @@ function spawnBugs(Game){
                 x: x3,
                 y: y3,
                 duration: 5000,
-                ease: "Linear"
+                ease: "Linear",
+                onComplete : function (){
+                    img.destroy();
+                }
             });
         }
     });
