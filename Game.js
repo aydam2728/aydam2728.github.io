@@ -125,6 +125,11 @@ class Game extends Phaser.Scene {
             this.scene.pause("Game");
             this.scene.run("pauseMenu");
         }, this);
+        this.input.keyboard.on('keydown-' + 'P', function (event) {
+            clearInterval(this.interval);
+            this.scene.pause("Game");
+            this.scene.run("pauseMenu");
+        }, this);
 
 
         //dev game over switch key implementation test
