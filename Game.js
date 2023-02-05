@@ -140,7 +140,7 @@ class Game extends Phaser.Scene {
             this.endTime=this.time.now;
             Timer();
         }
-        if (this.data.get("lives") == 0){
+        if (this.data.get("lives") <= 0){
             GameOver(this);
             return "";
         }
