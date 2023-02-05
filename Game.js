@@ -48,6 +48,7 @@ class Game extends Phaser.Scene {
          this.test.setOrigin(0.5, 1);
          this.hitbox = this.add.rectangle(window.innerWidth / 2, window.innerHeight, (this.test.width*0.5)/3, (this.test.height*0.5)-50, 0x6666ff);
         this.hitbox.setOrigin(0.5,1);
+        this.hitbox.alpha = 0;
 
         this.targetPoint.y=this.test.getTopCenter().y ;
         // Add a score text
