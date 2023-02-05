@@ -49,7 +49,7 @@ class startMenu extends Phaser.Scene {
         // Add a start button
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2 + 250;
-        var startButton = this.add.text(screenCenterX, screenCenterY, 'Start Game', {
+        var startButton = this.add.text(screenCenterX, screenCenterY, 'Insert Coin', {
             fontSize: '48px',
             fill: '#ff0',
             fontWeight: 'bold'
