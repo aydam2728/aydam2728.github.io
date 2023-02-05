@@ -35,7 +35,7 @@ class endMenu extends Phaser.Scene {
         var legend = this.add.bitmapText(screenCenterX - 240, screenCenterY - 90, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
         console.log('game started', data);
         this.add.bitmapText(screenCenterX - 350, screenCenterY - 500, 'arcade', 'GAME OVER !', 80).setTint(0x00ff00);
-        this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', '1ST   '+ 'data').setTint(0xff0000);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', '1ST   '+ data).setTint(0xff0000);
         this.add.bitmapText(screenCenterX - 240, screenCenterY + 10, 'arcade', '2ND   40000    ICE').setTint(0xff8200);
         this.add.bitmapText(screenCenterX - 240, screenCenterY + 60, 'arcade', '3RD   30000    GOS').setTint(0xffff00);
         this.add.bitmapText(screenCenterX - 240, screenCenterY + 110, 'arcade', '4TH   20000    HRE').setTint(0x00ff00);
