@@ -23,7 +23,6 @@ class Game extends Phaser.Scene {
         this.timeCheck=this.time.now;
         this.timeCheck2=this.time.now;
         this.size=1;
-        this.hitbox;
         //this.triggerTimer = Phaser.Time.TimerEvent;
     }
 
@@ -37,6 +36,7 @@ class Game extends Phaser.Scene {
         this.heart.setOrigin(0.5,1)
         this.heart.setScale(0.04,0.04);
 
+
         this.hp = this.add.text(200, 100, "X " + this.data.get("lives"), { font: '40px Courier', fill: '#00ff00' });
 
 
@@ -46,9 +46,6 @@ class Game extends Phaser.Scene {
          this.test = this.add.image(window.innerWidth / 2, window.innerHeight,"taille1");
          this.test.setScale(0.5,0.5);
          this.test.setOrigin(0.5, 1);
-         this.hitbox = this.add.rectangle(window.innerWidth / 2, window.innerHeight, (this.test.width*0.5)/3, (this.test.height*0.5)-50, 0x6666ff);
-        this.hitbox.setOrigin(0.5,1);
-        this.hitbox.alpha = 0;
 
         this.targetPoint.y=this.test.getTopCenter().y ;
         // Add a score text
@@ -109,6 +106,8 @@ class Game extends Phaser.Scene {
             inputString += event.key;
 
             if (inputString.toLowerCase().includes('loose')) {
+                console.log(minutes+':'+seconds+':'+milliseconds/100)
+                this.scene.stop('Game')
                 this.scene.start('endMenu');
             }
         }, this);
@@ -139,11 +138,6 @@ class Game extends Phaser.Scene {
             //this.targetPoint.y-=10;
             this.size++;
             this.test.setTexture("taille"+this.size);
-            // console.log(this.test.height*0.5,this.hitbox.size);
-            this.hitbox.displayWidth =(this.test.width*0.5)/3;
-            this.hitbox.displayHeight = (this.test.height*0.5)-50;
-
-            //console.log(this.test.height*0.5,this.hitbox.size);
             this.timeCheck2=this.time.now;
         }
         else if (this.downKey.isDown && this.targetPoint.y<=window.innerHeight && this.size>1 && this.time.now - this.timeCheck2 > 200)
@@ -151,20 +145,16 @@ class Game extends Phaser.Scene {
             //this.targetPoint.y+=10;
             this.size--;
             this.test.setTexture("taille"+this.size);
-            this.hitbox.displayWidth =(this.test.width*0.5)/3;
-            this.hitbox.displayHeight = (this.test.height*0.5)-50;
             this.timeCheck2=this.time.now;
         }
 
         if (this.leftKey.isDown && this.test.angle>=-60)
         {
             this.test.angle-=2;
-            this.hitbox.angle-=2;
         }
         else if (this.rightKey.isDown && this.test.angle<=60)
         {
             this.test.angle+=2;
-            this.hitbox.angle+=2;
         }
         this.targetPoint=this.test.getTopCenter();
         this.daisy.setPosition(this.test.getTopCenter().x,this.test.getTopCenter().y);
@@ -173,9 +163,9 @@ class Game extends Phaser.Scene {
                 // Check for overlap between the line and the bug bounding box
             for (var i=0;i<this.list.length;i++) {
                 if (this.list[i] != undefined){
-                if (Phaser.Geom.Intersects.RectangleToRectangle(this.hitbox.getBounds(), this.list[i].getBounds())) {
+                if (Phaser.Geom.Intersects.RectangleToRectangle(this.test.getBounds(), this.list[i].getBounds())) {
                     if (Phaser.Geom.Intersects.RectangleToRectangle(this.daisy.getBounds(), this.list[i].getBounds())){
-                        console.log("daisy");
+                        console.log("daisy hit");
                         this.list[i].destroy();
                         delete this.list[i];
                         this.data.set("lives", this.data.get("lives")-1);
