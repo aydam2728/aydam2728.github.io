@@ -15,6 +15,7 @@ class pauseMenu extends Phaser.Scene {
             this.scene.resume("Game");
             this.scene.stop("pauseMenu");
         }, this);
+        
         this.tweens.add({
             targets: Paused,
             alpha: 0.5,
