@@ -131,6 +131,7 @@ class Game extends Phaser.Scene {
     update(){
         if (this.data.get("lives") == 0){
             GameOver(this);
+            return "";
         }
         if(this.listSplash.length > 0){
             for (var i=0;i<this.listSplash.length;i++){
