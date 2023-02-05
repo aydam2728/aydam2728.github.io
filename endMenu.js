@@ -4,14 +4,17 @@ class endMenu extends Phaser.Scene {
     }
 
     preload() {
-
+        this.load.audio('gameoversound', ['assets/gameoversound.wav']);
         this.load.image('block', 'assets/phaser_assets/block.png');
         this.load.image('rub', 'assets/phaser_assets/rub.png');
         this.load.image('end', 'assets/phaser_assets/end.png');
         this.load.bitmapFont('arcade', 'assets/phaser_assets/arcade.png', 'assets/phaser_assets/arcade.xml');
+
     }
 
     create(data) {
+        var loose = this.sound.add('gameoversound',{loop:false});
+        loose.play();
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
