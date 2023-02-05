@@ -1,3 +1,4 @@
+var timerValue=0;
 class Game extends Phaser.Scene {
     constructor() {
         super("Game");
@@ -91,6 +92,7 @@ class Game extends Phaser.Scene {
 
             // Update the timer text
             timer.setText(minutes + ':' + (seconds < 10 ? '0' : '') + seconds + '.' + (milliseconds / 100).toFixed(0));
+            timerValue=timer.text;
         }, 100);
 
 
@@ -113,9 +115,7 @@ class Game extends Phaser.Scene {
             inputString += event.key;
 
             if (inputString.toLowerCase().includes('loose')) {
-                clearInterval(this.interval);
-                this.scene.stop("Game");
-                this.scene.start('endMenu',timer.text);
+                GameOver(this);
             }
         }, this);
 
@@ -130,9 +130,7 @@ class Game extends Phaser.Scene {
 
     update(){
         if (this.data.get("lives") == 0){
-            clearInterval(this.interval);
-            this.scene.stop("Game");
-            this.scene.start("endMenu",timer.text);
+            GameOver(this);
         }
         if(this.listSplash.length > 0){
             for (var i=0;i<this.listSplash.length;i++){
@@ -274,5 +272,11 @@ function spawnSplash(game,x,y){
     image = game.add.image(x, y, "splash");
     image.setScale(0.02,0.02);
     game.listSplash.push([image,game.time.now]);
+}
+
+function GameOver(game){
+    clearInterval(game.interval);
+    game.scene.stop("Game");
+    game.scene.start('endMenu',timerValue);
 }
 
