@@ -120,7 +120,7 @@ class Game extends Phaser.Scene {
             spawnBugs(this);
         }, this);
 
-        this.input.keyboard.on('keydown-' + 'P', function (event) {
+        this.input.keyboard.on('keydown-' + 'ESC', function (event) {
             clearInterval(this.interval);
             this.scene.pause("Game");
             this.scene.run("pauseMenu");
