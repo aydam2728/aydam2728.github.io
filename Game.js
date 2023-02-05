@@ -5,6 +5,8 @@ class Game extends Phaser.Scene {
     }
 
     preload() {
+        this.load.audio('hit', 'assets/hit.wav');
+
         this.load.image('bugs', 'assets/bugs.jpg');
         this.load.image('bugs_1', 'assets/bugs_1.png');
         this.load.image('bugs_2', 'assets/bugs_2.png');
@@ -35,6 +37,7 @@ class Game extends Phaser.Scene {
     }
 
     create(){
+        this.hit = this.sound.add('hit',{loop : false});
         //  Health ATH
         this.data.set('lives', 3);
         this.daisy=this.add.image(500,500,"daisy");
@@ -217,8 +220,8 @@ class Game extends Phaser.Scene {
                     //this.scene.start('endMenu');
                 }*/
                     if (Phaser.Geom.Intersects.RectangleToRectangle(this.daisy.getBounds(), this.list[i].getBounds())){
-                        console.log("daisy");
                         spawnSplash(this,this.list[i].getBounds().x,this.list[i].getBounds().y)
+                        this.hit.play();
                         this.list[i].destroy();
                         delete this.list[i];
                         this.data.set("lives", this.data.get("lives")-1);
