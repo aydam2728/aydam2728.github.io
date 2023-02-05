@@ -29,17 +29,24 @@ class endMenu extends Phaser.Scene {
 
         var rub = this.add.image(input.x + 430, input.y + 148, 'rub');
         var end = this.add.image(input.x + 482, input.y + 148, 'end');
+        end.setInteractive();
+
+        // Start the game when the button is clicked
+        end.on('pointerdown', function () {
+            this.scene.stop('endMenu')
+            this.scene.start('startMenu');
+        }, this);
 
         var block = this.add.image(input.x - 10, input.y - 2, 'block').setOrigin(0);
 
         var legend = this.add.bitmapText(screenCenterX - 240, screenCenterY - 90, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
         console.log('game started', data);
         this.add.bitmapText(screenCenterX - 350, screenCenterY - 500, 'arcade', 'GAME OVER !', 80).setTint(0x00ff00);
-        this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', '1ST   '+ data).setTint(0xff0000);
-        this.add.bitmapText(screenCenterX - 240, screenCenterY + 10, 'arcade', '2ND   40000    ICE').setTint(0xff8200);
-        this.add.bitmapText(screenCenterX - 240, screenCenterY + 60, 'arcade', '3RD   30000    GOS').setTint(0xffff00);
-        this.add.bitmapText(screenCenterX - 240, screenCenterY + 110, 'arcade', '4TH   20000    HRE').setTint(0x00ff00);
-        this.add.bitmapText(screenCenterX - 240, screenCenterY + 160, 'arcade', '5TH   10000    ETE').setTint(0x00bfff);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', 'YOU   '+ data).setTint(0xff0000);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 10, 'arcade', '1ST   0:00.0   BOT').setTint(0xff8200);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 60, 'arcade', '2ND   0:00.0   BAT').setTint(0xffff00);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 110, 'arcade', '3RD   0:00.0   BET').setTint(0x00ff00);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 160, 'arcade', '4TH   0:00.0   BUT').setTint(0x00bfff);
 
         var playerText = this.add.bitmapText(screenCenterX + 240, screenCenterY - 40, 'arcade', name).setTint(0xff0000);
 

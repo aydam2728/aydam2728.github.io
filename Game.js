@@ -132,7 +132,7 @@ class Game extends Phaser.Scene {
         if (this.data.get("lives") == 0){
             clearInterval(this.interval);
             this.scene.stop("Game");
-            this.scene.start("endMenu",timer.text);
+            this.scene.start("endMenu",);
         }
         if(this.listSplash.length > 0){
             for (var i=0;i<this.listSplash.length;i++){
@@ -145,7 +145,7 @@ class Game extends Phaser.Scene {
             }
         }
 
-        if (this.time.now - this.timeCheck > 100000){
+        if (this.time.now - this.timeCheck > 1000){
             this.timeCheck=this.time.now;
             spawnBugs(this);
         }
