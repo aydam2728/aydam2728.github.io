@@ -163,7 +163,7 @@ class Game extends Phaser.Scene {
             }
         }
 
-        if (this.time.now - this.timeCheck > 1000){
+        if (this.time.now - this.timeCheck > 500){
             this.timeCheck=this.time.now;
             spawnBugs(this);
         }

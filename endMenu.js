@@ -44,8 +44,8 @@ class endMenu extends Phaser.Scene {
 
         var legend = this.add.bitmapText(screenCenterX - 240, screenCenterY - 90, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
         console.log('game started', data);
-        this.add.bitmapText(screenCenterX - 350, screenCenterY - 500, 'arcade', 'GAME OVER !', 80).setTint(0x00ff00);
-        this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', 'YOU   '+ data).setTint(0xff0000);
+        var GmOv = this.add.bitmapText(screenCenterX - 350, screenCenterY - 500, 'arcade', 'GAME OVER !', 80).setTint(0x00ff00);
+        var our = this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', 'YOU   '+ data).setTint(0xff0000);
         this.add.bitmapText(screenCenterX - 240, screenCenterY + 10, 'arcade', '1ST   0:00.0   BOT').setTint(0xff8200);
         this.add.bitmapText(screenCenterX - 240, screenCenterY + 60, 'arcade', '2ND   0:00.0   BAT').setTint(0xffff00);
         this.add.bitmapText(screenCenterX - 240, screenCenterY + 110, 'arcade', '3RD   0:00.0   BET').setTint(0x00ff00);
@@ -167,6 +167,22 @@ class endMenu extends Phaser.Scene {
         this.tweens.add({
             targets: retryButton,
             alpha: 0.5,
+            duration: 500,
+            ease: 'Linear',
+            yoyo: true,
+            repeat: -1
+        });
+        this.tweens.add({
+            targets: our,
+            alpha: 0.5,
+            duration: 500,
+            ease: 'Linear',
+            yoyo: true,
+            repeat: -1
+        });
+        this.tweens.add({
+            targets: GmOv,
+            alpha: 0.3,
             duration: 500,
             ease: 'Linear',
             yoyo: true,
