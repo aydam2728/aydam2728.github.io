@@ -12,6 +12,7 @@ class Game extends Phaser.Scene {
         this.load.image('taille3', 'assets/taille3.png');
         this.load.image('heart', 'assets/8bitheart.png');
         this.load.image('daisy', 'assets/daisy.png');
+        this.load.image("splash",'assets/splash.png')
         this.score=0;
         this.targetPoint = {x:0,y:0};
         this.upKey;
@@ -23,6 +24,8 @@ class Game extends Phaser.Scene {
         this.timeCheck=this.time.now;
         this.timeCheck2=this.time.now;
         this.size=1;
+        this.hitbox;
+        this.listSplash=[];
         //this.triggerTimer = Phaser.Time.TimerEvent;
     }
 
@@ -36,7 +39,6 @@ class Game extends Phaser.Scene {
         this.heart.setOrigin(0.5,1)
         this.heart.setScale(0.04,0.04);
 
-
         this.hp = this.add.text(200, 100, "X " + this.data.get("lives"), { font: '40px Courier', fill: '#00ff00' });
 
 
@@ -46,8 +48,11 @@ class Game extends Phaser.Scene {
          this.test = this.add.image(window.innerWidth / 2, window.innerHeight,"taille1");
          this.test.setScale(0.5,0.5);
          this.test.setOrigin(0.5, 1);
+         this.hitbox = this.add.rectangle(window.innerWidth / 2, window.innerHeight, (this.test.width*0.5)/3, (this.test.height*0.5)-50, 0x6666ff);
+        this.hitbox.setOrigin(0.5,1);
+        //this.hitbox.alpha = 0;
 
-        this.targetPoint.y=this.test.getTopCenter().y ;
+        this.targetPoint=this.test.getTopCenter() ;
         // Add a score text
         var timer = this.add.text(
             (this.game.config.width / 2) +100,
@@ -69,7 +74,7 @@ class Game extends Phaser.Scene {
         var milliseconds = 0;
 
         // Start the timer
-        var interval = setInterval(function () {
+        this.interval = setInterval(function () {
             milliseconds += 100;
 
             // Increase seconds if milliseconds reach 1000
@@ -91,6 +96,8 @@ class Game extends Phaser.Scene {
 
         //backspace key implementation
         this.input.keyboard.on('keydown-' + 'BACKSPACE', function (event) {
+            clearInterval(this.interval);
+            this.scene.stop("Game");
             this.scene.start('startMenu');
 
         }, this);
@@ -106,8 +113,8 @@ class Game extends Phaser.Scene {
             inputString += event.key;
 
             if (inputString.toLowerCase().includes('loose')) {
-                console.log(minutes+':'+seconds+':'+milliseconds/100)
-                this.scene.stop('Game')
+                clearInterval(this.interval);
+                this.scene.stop("Game");
                 this.scene.start('endMenu');
             }
         }, this);
@@ -123,12 +130,22 @@ class Game extends Phaser.Scene {
 
     update(){
         if (this.data.get("lives") == 0){
+            clearInterval(this.interval);
             this.scene.stop("Game");
             this.scene.start("endMenu");
         }
+        if(this.listSplash.length > 0){
+            for (var i=0;i<this.listSplash.length;i++){
+                if(this.listSplash[i] != undefined){
+                    if(this.time.now - this.listSplash[i][1] >500){
+                        this.listSplash[i][0].destroy();
+                        delete this.listSplash[i];
+                    }
+                }
+            }
+        }
 
-
-        if (this.time.now - this.timeCheck > 1000){
+        if (this.time.now - this.timeCheck > 100000){
             this.timeCheck=this.time.now;
             spawnBugs(this);
         }
@@ -138,6 +155,11 @@ class Game extends Phaser.Scene {
             //this.targetPoint.y-=10;
             this.size++;
             this.test.setTexture("taille"+this.size);
+            // console.log(this.test.height*0.5,this.hitbox.size);
+            this.hitbox.displayWidth =(this.test.width*0.5)/3;
+            this.hitbox.displayHeight = (this.test.height*0.5)-50;
+
+            //console.log(this.test.height*0.5,this.hitbox.size);
             this.timeCheck2=this.time.now;
         }
         else if (this.downKey.isDown && this.targetPoint.y<=window.innerHeight && this.size>1 && this.time.now - this.timeCheck2 > 200)
@@ -145,16 +167,20 @@ class Game extends Phaser.Scene {
             //this.targetPoint.y+=10;
             this.size--;
             this.test.setTexture("taille"+this.size);
+            this.hitbox.displayWidth =(this.test.width*0.5)/3;
+            this.hitbox.displayHeight = (this.test.height*0.5)-50;
             this.timeCheck2=this.time.now;
         }
 
         if (this.leftKey.isDown && this.test.angle>=-60)
         {
             this.test.angle-=2;
+            this.hitbox.angle-=2;
         }
         else if (this.rightKey.isDown && this.test.angle<=60)
         {
             this.test.angle+=2;
+            this.hitbox.angle+=2;
         }
         this.targetPoint=this.test.getTopCenter();
         this.daisy.setPosition(this.test.getTopCenter().x,this.test.getTopCenter().y);
@@ -163,9 +189,10 @@ class Game extends Phaser.Scene {
                 // Check for overlap between the line and the bug bounding box
             for (var i=0;i<this.list.length;i++) {
                 if (this.list[i] != undefined){
-                if (Phaser.Geom.Intersects.RectangleToRectangle(this.test.getBounds(), this.list[i].getBounds())) {
+                   /*
+                if (Phaser.Geom.Intersects.RectangleToRectangle(this.hitbox.getBounds(), this.list[i].getBounds())) {
                     if (Phaser.Geom.Intersects.RectangleToRectangle(this.daisy.getBounds(), this.list[i].getBounds())){
-                        console.log("daisy hit");
+                        console.log("daisy");
                         this.list[i].destroy();
                         delete this.list[i];
                         this.data.set("lives", this.data.get("lives")-1);
@@ -180,7 +207,22 @@ class Game extends Phaser.Scene {
                     // Perform the desired action, e.g. score update or bug destruction
 
                     //this.scene.start('endMenu');
-                }
+                }*/
+                    if (Phaser.Geom.Intersects.RectangleToRectangle(this.daisy.getBounds(), this.list[i].getBounds())){
+                        console.log("daisy");
+                        spawnSplash(this,this.list[i].getBounds().x,this.list[i].getBounds().y)
+                        this.list[i].destroy();
+                        delete this.list[i];
+                        this.data.set("lives", this.data.get("lives")-1);
+                        this.hp.setText(
+                            "X " +this.data.get('lives'),
+                        );
+                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.hitbox.getBounds(), this.list[i].getBounds())){
+                        spawnSplash(this,this.list[i].getBounds().x,this.list[i].getBounds().y)
+                        this.list[i].destroy();
+                        delete this.list[i];
+                    }
+
                 }
             }
         }
@@ -228,4 +270,9 @@ function spawnBugs(Game){
     Game.list.push(img);
 }
 
+function spawnSplash(game,x,y){
+    image = game.add.image(x, y, "splash");
+    image.setScale(0.02,0.02);
+    game.listSplash.push([image,game.time.now]);
+}
 
