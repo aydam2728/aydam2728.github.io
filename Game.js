@@ -32,11 +32,10 @@ class Game extends Phaser.Scene {
         this.heart.setOrigin(0.5,1)
         this.heart.setScale(0.04,0.04);
 
-        var text = this.add.text(200, 100, '', { font: '40px Courier', fill: '#00ff00' });
+        this.hp = this.add.text(200, 100, "X " + this.data.get("lives"), { font: '40px Courier', fill: '#00ff00' });
 
-        text.setText([
-            "X " +this.data.get('lives'),
-        ]);
+        
+        
 
         // creating our root
          this.test = this.add.image(window.innerWidth / 2, window.innerHeight,"test");
@@ -116,6 +115,13 @@ class Game extends Phaser.Scene {
     }
 
     update(){
+        if (this.data.get("lives") == 0){
+            this.scene.stop("Game");
+            this.scene.start("endMenu");
+
+        }
+        
+        
         if (this.time.now - this.timeCheck > 1000){
             this.timeCheck=this.time.now;
             spawnBugs(this);
@@ -139,21 +145,32 @@ class Game extends Phaser.Scene {
             this.test.angle+=2;
         }
         this.targetPoint=this.test.getTopCenter() ;
-        console.log(this.test.getCenter());
-        this.daisy.setPosition(this.test.getCenter().x,this.test.getCenter().y);
+        //console.log(this.test.getCenter());
+        this.daisy.setPosition(this.test.getTopCenter().x,this.test.getTopCenter().y);
         if(this.list.length >0){
                 // Check for overlap between the line and the bug bounding box
+            console.log(this.list.length)
             for (var i=0;i<this.list.length;i++) {
+                if (this.list[i] != undefined ){
                 if (Phaser.Geom.Intersects.RectangleToRectangle(this.test.getBounds(), this.list[i].getBounds())) {
                     if (Phaser.Geom.Intersects.RectangleToRectangle(this.daisy.getBounds(), this.list[i].getBounds())){
                         console.log("daisy");
                         this.list[i].destroy();
+                        delete this.list[i];
+                        this.data.set("lives", this.data.get("lives")-1);
+                        this.hp.setText(
+                            "X " +this.data.get('lives'),
+                        );
+                        break
+                        
+                        
                     }
                     //this.scene.stop('Game');
                     // Perform the desired action, e.g. score update or bug destruction
 
                     //this.scene.start('endMenu');
                 }
+            }
             }
         }
 

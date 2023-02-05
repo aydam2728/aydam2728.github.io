@@ -4,143 +4,169 @@ class endMenu extends Phaser.Scene {
     }
 
     preload() {
-        
-            this.load.image('block', 'assets/phaser_assets/block.png');
-            this.load.image('rub', 'assets/phaser_assets/rub.png');
-            this.load.image('end', 'assets/phaser_assets/end.png');
-            this.load.bitmapFont('arcade', 'assets/phaser_assets/arcade.png', 'assets/phaser_assets/arcade.xml');
+
+        this.load.image('block', 'assets/phaser_assets/block.png');
+        this.load.image('rub', 'assets/phaser_assets/rub.png');
+        this.load.image('end', 'assets/phaser_assets/end.png');
+        this.load.bitmapFont('arcade', 'assets/phaser_assets/arcade.png', 'assets/phaser_assets/arcade.xml');
     }
 
     create() {
-            const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
-            const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+        const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+        const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
-            var chars = [
-                ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
-                ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'],
-                ['U', 'V', 'W', 'X', 'Y', 'Z', '.', '-', '<', '>']
-            ];
-            var cursor = { x: 0, y: 0 };
-            var name = '';
+        var chars = [
+            ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+            ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'],
+            ['U', 'V', 'W', 'X', 'Y', 'Z', '.', '-', '<', '>']
+        ];
+        var cursor = { x: 0, y: 0 };
+        var name = '';
 
-            var input = this.add.bitmapText(screenCenterX - 200, screenCenterY-300, 'arcade', 'ABCDEFGHIJ\n\nKLMNOPQRST\n\nUVWXYZ.-').setLetterSpacing(20);
+        var input = this.add.bitmapText(screenCenterX - 200, screenCenterY - 300, 'arcade', 'ABCDEFGHIJ\n\nKLMNOPQRST\n\nUVWXYZ.-').setLetterSpacing(20);
 
-            input.setInteractive();
+        input.setInteractive();
 
-            var rub = this.add.image(input.x + 430, input.y + 148, 'rub');
-            var end = this.add.image(input.x + 482, input.y + 148, 'end');
+        var rub = this.add.image(input.x + 430, input.y + 148, 'rub');
+        var end = this.add.image(input.x + 482, input.y + 148, 'end');
 
-            var block = this.add.image(input.x - 10, input.y - 2, 'block').setOrigin(0);
+        var block = this.add.image(input.x - 10, input.y - 2, 'block').setOrigin(0);
 
-            var legend = this.add.bitmapText(screenCenterX - 240, screenCenterY - 90, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
+        var legend = this.add.bitmapText(screenCenterX - 240, screenCenterY - 90, 'arcade', 'RANK  SCORE   NAME').setTint(0xff00ff);
 
-            this.add.bitmapText(screenCenterX- 350, screenCenterY - 500, 'arcade', 'GAME OVER !', 80).setTint(0x00ff00);
-            this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', '1ST   50000    ').setTint(0xff0000);
-            this.add.bitmapText(screenCenterX - 240, screenCenterY + 10, 'arcade', '2ND   40000    ICE').setTint(0xff8200);
-            this.add.bitmapText(screenCenterX - 240, screenCenterY + 60, 'arcade', '3RD   30000    GOS').setTint(0xffff00);
-            this.add.bitmapText(screenCenterX - 240, screenCenterY + 110, 'arcade', '4TH   20000    HRE').setTint(0x00ff00);
-            this.add.bitmapText(screenCenterX - 240, screenCenterY + 160, 'arcade', '5TH   10000    ETE').setTint(0x00bfff);
+        this.add.bitmapText(screenCenterX - 350, screenCenterY - 500, 'arcade', 'GAME OVER !', 80).setTint(0x00ff00);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY - 40, 'arcade', '1ST   yurtim    ').setTint(0xff0000);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 10, 'arcade', '2ND   40000    ICE').setTint(0xff8200);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 60, 'arcade', '3RD   30000    GOS').setTint(0xffff00);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 110, 'arcade', '4TH   20000    HRE').setTint(0x00ff00);
+        this.add.bitmapText(screenCenterX - 240, screenCenterY + 160, 'arcade', '5TH   10000    ETE').setTint(0x00bfff);
 
-            var playerText = this.add.bitmapText(screenCenterX + 240, screenCenterY - 40, 'arcade', name).setTint(0xff0000);
+        var playerText = this.add.bitmapText(screenCenterX + 240, screenCenterY - 40, 'arcade', name).setTint(0xff0000);
 
-            this.input.keyboard.on('keyup', function (event) {
+        this.input.keyboard.on('keyup', function (event) {
 
-                if (event.keyCode === 37) {
-                    //  left
-                    if (cursor.x > 0) {
-                        cursor.x--;
-                        block.x -= 52;
-                    }
+            if (event.keyCode === 37) {
+                //  left
+                if (cursor.x > 0) {
+                    cursor.x--;
+                    block.x -= 52;
                 }
-                else if (event.keyCode === 39) {
-                    //  right
-                    if (cursor.x < 9) {
-                        cursor.x++;
-                        block.x += 52;
-                    }
+            }
+            else if (event.keyCode === 39) {
+                //  right
+                if (cursor.x < 9) {
+                    cursor.x++;
+                    block.x += 52;
                 }
-                else if (event.keyCode === 38) {
-                    //  up
-                    if (cursor.y > 0) {
-                        cursor.y--;
-                        block.y -= 64;
-                    }
+            }
+            else if (event.keyCode === 38) {
+                //  up
+                if (cursor.y > 0) {
+                    cursor.y--;
+                    block.y -= 64;
                 }
-                else if (event.keyCode === 40) {
-                    //  down
-                    if (cursor.y < 2) {
-                        cursor.y++;
-                        block.y += 64;
-                    }
+            }
+            else if (event.keyCode === 40) {
+                //  down
+                if (cursor.y < 2) {
+                    cursor.y++;
+                    block.y += 64;
                 }
-                else if (event.keyCode === 13 || event.keyCode === 32) {
-                    //  Enter or Space
-                    if (cursor.x === 9 && cursor.y === 2 && name.length > 0) {
-                        //  Submit
-                    }
-                    else if (cursor.x === 8 && cursor.y === 2 && name.length > 0) {
-                        //  Rub
-                        name = name.substr(0, name.length - 1);
-
-                        playerText.text = name;
-                    }
-                    else if (name.length < 3) {
-                        //  Add
-                        name = name.concat(chars[cursor.y][cursor.x]);
-
-                        playerText.text = name;
-                    }
+            }
+            else if (event.keyCode === 13 || event.keyCode === 32) {
+                //  Enter or Space
+                if (cursor.x === 9 && cursor.y === 2 && name.length > 0) {
+                    //  Submit
                 }
-
-            });
-
-            input.on('pointermove', function (pointer, x, y) {
-
-                var cx = Phaser.Math.Snap.Floor(x, 52, 0, true);
-                var cy = Phaser.Math.Snap.Floor(y, 64, 0, true);
-                var char = chars[cy][cx];
-
-                cursor.x = cx;
-                cursor.y = cy;
-
-                block.x = input.x - 10 + (cx * 52);
-                block.y = input.y - 2 + (cy * 64);
-
-            }, this);
-
-            input.on('pointerup', function (pointer, x, y) {
-
-                var cx = Phaser.Math.Snap.Floor(x, 52, 0, true);
-                var cy = Phaser.Math.Snap.Floor(y, 64, 0, true);
-                var char = chars[cy][cx];
-
-                cursor.x = cx;
-                cursor.y = cy;
-
-                block.x = input.x - 10 + (cx * 52);
-                block.y = input.y - 2 + (cy * 64);
-
-                if (char === '<' && name.length > 0) {
+                else if (cursor.x === 8 && cursor.y === 2 && name.length > 0) {
                     //  Rub
                     name = name.substr(0, name.length - 1);
 
                     playerText.text = name;
                 }
-                else if (char === '>' && name.length > 0) {
-                    //  Submit
-                }
                 else if (name.length < 3) {
                     //  Add
-                    name = name.concat(char);
+                    name = name.concat(chars[cursor.y][cursor.x]);
 
                     playerText.text = name;
                 }
+            }
 
-            }, this);
-        }
+        });
+
+        input.on('pointermove', function (pointer, x, y) {
+
+            var cx = Phaser.Math.Snap.Floor(x, 52, 0, true);
+            var cy = Phaser.Math.Snap.Floor(y, 64, 0, true);
+            var char = chars[cy][cx];
+
+            cursor.x = cx;
+            cursor.y = cy;
+
+            block.x = input.x - 10 + (cx * 52);
+            block.y = input.y - 2 + (cy * 64);
+
+        }, this);
+
+        input.on('pointerup', function (pointer, x, y) {
+
+            var cx = Phaser.Math.Snap.Floor(x, 52, 0, true);
+            var cy = Phaser.Math.Snap.Floor(y, 64, 0, true);
+            var char = chars[cy][cx];
+
+            cursor.x = cx;
+            cursor.y = cy;
+
+            block.x = input.x - 10 + (cx * 52);
+            block.y = input.y - 2 + (cy * 64);
+
+            if (char === '<' && name.length > 0) {
+                //  Rub
+                name = name.substr(0, name.length - 1);
+
+                playerText.text = name;
+            }
+            else if (char === '>' && name.length > 0) {
+                //  Submit
+            }
+            else if (name.length < 3) {
+                //  Add
+                name = name.concat(char);
+
+                playerText.text = name;
+            }
+
+        }, this);
+
+        var retryButton = this.add.text(screenCenterX+700 , screenCenterY+500, 'Retry', {
+            fontSize: '55px',
+            color : '#FF0000',
+            fontWeight: 'bold',
+            fontFamily: 'arcade'
+        });
+        retryButton.setOrigin(0.5, 0.5);
+        retryButton.setInteractive();
+
+        // Restart the game when the button is clicked
+        retryButton.on('pointerdown', function () {
+            this.scene.stop('endMenu')
+            this.scene.start('Game');
+        }, this);
+
+        // Make the button flicker
+        this.tweens.add({
+            targets: retryButton,
+            alpha: 0.5,
+            duration: 500,
+            ease: 'Linear',
+            yoyo: true,
+            repeat: -1
+        });
+        
     }
+}
 
-    function loadScores(){
+function loadScores() {
     /*
         var fs = require("fs");
         fs.readFile("./mytext.txt", function(text){
@@ -156,5 +182,5 @@ class endMenu extends Phaser.Scene {
         log("writing file..");
         file.writeline(str);
         file.close();*/
-        //console.log(JSON.stringify({ x: 5, y: 6 });
-    }
+    //console.log(JSON.stringify({ x: 5, y: 6 });
+}
