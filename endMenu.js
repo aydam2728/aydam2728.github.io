@@ -145,11 +145,11 @@ class endMenu extends Phaser.Scene {
 
         }, this);
 
-        var retryButton = this.add.text(screenCenterX+700 , screenCenterY+500, 'Retry', {
+        var retryButton = this.add.text(screenCenterX+700 , screenCenterY+300, 'Retry', {
             fontSize: '55px',
             color : '#FF0000',
             fontWeight: 'bold',
-            fontFamily: 'arcade'
+            
         });
         retryButton.setOrigin(0.5, 0.5);
         retryButton.setInteractive();
