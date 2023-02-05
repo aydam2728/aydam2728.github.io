@@ -51,7 +51,7 @@ class Game extends Phaser.Scene {
          this.test.setOrigin(0.5, 1);
          this.hitbox = this.add.rectangle(window.innerWidth / 2, window.innerHeight, (this.test.width*0.5)/3, (this.test.height*0.5)-50, 0x6666ff);
         this.hitbox.setOrigin(0.5,1);
-        //this.hitbox.alpha = 0;
+        this.hitbox.alpha = 0;
 
         this.targetPoint=this.test.getTopCenter() ;
         // Add a score text
@@ -264,7 +264,21 @@ function spawnBugs(Game){
         x: x2,
         y: y2,
         duration: 5000,
-        ease: 'Linear'
+        ease: 'Linear',
+        onComplete: function () {
+            // Set the target position for the new animation
+            var x3 = x2 + (x2 - x1);
+            var y3 = y2 + (y2 - y1);
+
+            // Create the new animation
+            Game.tweens.add({
+                targets: img,
+                x: x3,
+                y: y3,
+                duration: 5000,
+                ease: "Linear"
+            });
+        }
     });
     Game.list.push(img);
 }
